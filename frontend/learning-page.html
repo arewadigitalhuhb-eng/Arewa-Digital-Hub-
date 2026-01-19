@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - Arewa Digital Hub</title>
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --primary-blue: #2196F3;
+            --accent-orange: #FF9800;
+            --accent-gold: #FFD700;
+            --dark-bg: #0f172a;
+            --sidebar-bg: #1e293b;
+            --card-bg: #1e293b;
+            --white: #ffffff;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --learning-path: #8b5cf6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            padding: 25px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid var(--border-color);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        
+        .logo {
+            padding: 0 25px 30px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .nav-section {
+            margin-bottom: 30px;
+            padding: 0 25px;
+        }
+        
+        .nav-section h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+        
+        .nav-links a.active {
+            background: linear-gradient(135deg, var(--accent-orange), #FF5722);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .nav-icon {
+            font-size: 1.3rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .user-profile {
+            padding: 20px 25px;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-orange), var(--primary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 25px;
+            min-height: 100vh;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .welcome-section h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .welcome-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .learning-stats {
+            display: flex;
+            gap: 30px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-item {
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-orange);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Learning Paths */
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+        
+        .section-card:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+        }
+        
+        .view-all {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .view-all:hover {
+            gap: 12px;
+        }
+        
+        /* Paths Grid */
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .path-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--learning-path), #a78bfa);
+        }
+        
+        .path-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--learning-path);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+        }
+        
+        .path-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .path-icon {
+            font-size: 2.5rem;
+            color: var(--learning-path);
+        }
+        
+        .path-level {
+            padding: 5px 15px;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--learning-path);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .path-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .path-card p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .path-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .path-stats {
+            display: flex;
+            gap: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--learning-path), #a78bfa);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--accent-orange);
+        }
+        
+        /* Courses Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .course-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .course-header {
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .course-bg {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .course-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .course-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent-orange), #FF5722);
+            transition: width 0.5s;
+        }
+        
+        .course-content {
+            padding: 25px;
+        }
+        
+        .course-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .course-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--warning);
+        }
+        
+        /* Video Library */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .video-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+        }
+        
+        .video-thumbnail {
+            height: 160px;
+            position: relative;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .play-btn:hover {
+            background: var(--accent-orange);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 3px 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .video-content {
+            padding: 20px;
+        }
+        
+        .video-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+        
+        /* Learning Resources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .resource-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-orange);
+        }
+        
+        .resource-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .resource-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Filter Bar */
+        .filter-bar {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent-orange), #FF5722);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            min-width: 300px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .learning-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .paths-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .paths-grid, .courses-grid, .videos-grid, .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section h1 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Video Modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .video-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Certificate Badges */
+        .certificate-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--accent-gold), #fbbf24);
+            color: #000;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        /* Progress Ring */
+        .progress-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        .progress-ring-bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-ring-fill {
+            stroke: var(--accent-orange);
+            stroke-dasharray: 251;
+            stroke-dashoffset: calc(251 - (251 * var(--progress)) / 100);
+            transition: stroke-dashoffset 1s ease-out;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        /* Achievement Popup */
+        .achievement-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--accent-orange), #FF5722);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 2000;
+            display: none;
+            animation: slideInRight 0.5s ease-out;
+            box-shadow: 0 10px 25px rgba(255, 152, 0, 0.3);
+            max-width: 350px;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .achievement-popup .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <h1>
+                <span class="logo-icon">🎓</span>
+                <span>Learning Hub</span>
+            </h1>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Learning Paths</h3>
+            <ul class="nav-links">
+                <li><a href="#" class="active">
+                    <span class="nav-icon">🗺️</span>
+                    <span>All Paths</span>
+                </a></li>
+                <li><a href="#web-dev">
+                    <span class="nav-icon">🌐</span>
+                    <span>Web Development</span>
+                </a></li>
+                <li><a href="#mobile-dev">
+                    <span class="nav-icon">📱</span>
+                    <span>Mobile Development</span>
+                </a></li>
+                <li><a href="#data-science">
+                    <span class="nav-icon">🤖</span>
+                    <span>Data Science</span>
+                </a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>My Learning</h3>
+            <ul class="nav-links">
+                <li><a href="#my-courses">
+                    <span class="nav-icon">📚</span>
+                    <span>My Courses</span>
+                </a></li>
+                <li><a href="#progress">
+                    <span class="nav-icon">📈</span>
+                    <span>Progress</span>
+                </a></li>
+                <li><a href="#certificates">
+                    <span class="nav-icon">🏆</span>
+                    <span>Certificates</span>
+                </a></li>
+                <li><a href="#bookmarks">
+                    <span class="nav-icon">🔖</span>
+                    <span>Bookmarks</span>
+                </a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Resources</h3>
+            <ul class="nav-links">
+                <li><a href="#videos">
+                    <span class="nav-icon">🎥</span>
+                    <span>Video Library</span>
+                </a></li>
+                <li><a href="#articles">
+                    <span class="nav-icon">📖</span>
+                    <span>Articles</span>
+                </a></li>
+                <li><a href="#tools">
+                    <span class="nav-icon">🛠️</span>
+                    <span>Tools</span>
+                </a></li>
+                <li><a href="#community">
+                    <span class="nav-icon">👥</span>
+                    <span>Community</span>
+                </a></li>
+            </ul>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-avatar">AB</div>
+            <div class="user-info">
+                <h4>Aisha Bello</h4>
+                <p>Level 3 Learner</p>
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                    <div class="progress-ring">
+                        <svg width="80" height="80">
+                            <circle class="progress-ring-bg" cx="40" cy="40" r="36"></circle>
+                            <circle class="progress-ring-fill" cx="40" cy="40" r="36" style="--progress: 75"></circle>
+                        </svg>
+                        <div class="progress-text">75%</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--accent-gold);">Frontend Track</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">12/16 weeks</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            </div>
+            
+            <div class="welcome-section">
+                <h1>Welcome to Learning Hub, Aisha! 👋</h1>
+                <p>Continue your journey to becoming a world-class developer from Northern Nigeria</p>
+            </div>
+            
+            <div class="learning-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="learningStreak">12</span>
+                    <span class="stat-label">Day Streak</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="completedCourses">5</span>
+                    <span class="stat-label">Courses</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="learningHours">156</span>
+                    <span class="stat-label">Hours</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="certificates">3</span>
+                    <span class="stat-label">Certificates</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="beginner">Beginner</button>
+                <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+                <button class="filter-btn" data-filter="advanced">Advanced</button>
+                <button class="filter-btn" data-filter="certificate">With Certificate</button>
+                <button class="filter-btn" data-filter="popular">Most Popular</button>
+            </div>
+            
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="courseSearch" placeholder="Search courses, tutorials, resources...">
+            </div>
+        </div>
+
+        <!-- Learning Paths -->
+        <section id="learning-paths" class="section-card">
+            <div class="section-header">
+                <h2>Recommended Learning Paths</h2>
+                <a href="#" class="view-all">View All Paths →</a>
+            </div>
+            
+            <div class="paths-grid">
+                <div class="path-card" id="web-dev">
+                    <div class="path-header">
+                        <div class="path-icon">🌐</div>
+                        <span class="path-level">Beginner to Pro</span>
+                    </div>
+                    <h3>Full-Stack Web Development</h3>
+                    <p>Master HTML, CSS, JavaScript, React, Node.js, and MongoDB to build modern web applications. Perfect for Northern Nigeria's growing tech market.</p>
+                    
+                    <div class="path-meta">
+                        <div class="path-stats">
+                            <span>📚 16 Courses</span>
+                            <span>⏱️ 6 Months</span>
+                            <span>👥 2,450 Students</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Start Path</a>
+                    </div>
+                </div>
+                
+                <div class="path-card" id="mobile-dev">
+                    <div class="path-header">
+                        <div class="path-icon">📱</div>
+                        <span class="path-level">Intermediate</span>
+                    </div>
+                    <h3>Mobile App Development</h3>
+                    <p>Build cross-platform mobile apps with Flutter & Dart. Create apps that solve real problems in Northern Nigerian communities.</p>
+                    
+                    <div class="path-meta">
+                        <div class="path-stats">
+                            <span>📚 12 Courses</span>
+                            <span>⏱️ 4 Months</span>
+                            <span>👥 1,850 Students</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Continue</a>
+                    </div>
+                </div>
+                
+                <div class="path-card" id="data-science">
+                    <div class="path-header">
+                        <div class="path-icon">🤖</div>
+                        <span class="path-level">Advanced</span>
+                    </div>
+                    <h3>Data Science & AI</h3>
+                    <p>Learn Python, Machine Learning, and Data Analysis. Apply AI solutions to Northern Nigeria's agriculture and business sectors.</p>
+                    
+                    <div class="path-meta">
+                        <div class="path-stats">
+                            <span>📚 20 Courses</span>
+                            <span>⏱️ 8 Months</span>
+                            <span>👥 980 Students</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- In Progress Courses -->
+        <section id="my-courses" class="section-card">
+            <div class="section-header">
+                <h2>Continue Learning</h2>
+                <a href="#" class="view-all">View All Courses →</a>
+            </div>
+            
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-header">
+                        <div class="course-bg">🌐</div>
+                        <div class="course-category">Web Development</div>
+                        <div class="course-progress">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h3>Advanced React & Redux</h3>
+                        <p>Master state management, hooks, and advanced patterns in React applications.</p>
+                        <div class="course-meta">
+                            <div>
+                                <span>📅 Week 12/16</span>
+                                <span class="course-rating">⭐ 4.8</span>
+                            </div>
+                            <button class="btn btn-secondary" onclick="resumeCourse(1)">Resume</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-header">
+                        <div class="course-bg">💻</div>
+                        <div class="course-category">Backend</div>
+                        <div class="course-progress">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h3>Node.js & Express API Development</h3>
+                        <p>Build RESTful APIs with authentication, validation, and database integration.</p>
+                        <div class="course-meta">
+                            <div>
+                                <span>📅 Week 8/16</span>
+                                <span class="course-rating">⭐ 4.9</span>
+                            </div>
+                            <button class="btn btn-secondary" onclick="resumeCourse(2)">Resume</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-header">
+                        <div class="course-bg">🎨</div>
+                        <div class="course-category">Design</div>
+                        <div class="course-progress">
+                            <div class="progress-fill" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h3>UI/UX Design Fundamentals</h3>
+                        <p>Learn user-centered design principles and create beautiful, functional interfaces.</p>
+                        <div class="course-meta">
+                            <div>
+                                <span>📅 Week 6/20</span>
+                                <span class="course-rating">⭐ 4.7</span>
+                            </div>
+                            <button class="btn btn-secondary" onclick="resumeCourse(3)">Resume</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Library -->
+        <section id="videos" class="section-card">
+            <div class="section-header">
+                <h2>Video Tutorials</h2>
+                <a href="#" class="view-all">Browse All Videos →</a>
+            </div>
+            
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <div class="play-btn" onclick="playVideo(1)">▶️</div>
+                        <div class="video-duration">25:18</div>
+                    </div>
+                    <div class="video-content">
+                        <h3>React Hooks Deep Dive</h3>
+                        <p>Learn useState, useEffect, useContext, and custom hooks with practical examples.</p>
+                        <div class="video-meta">
+                            <span>By Musa Sani</span>
+                            <span>📅 Jan 15</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                        <div class="play-btn" onclick="playVideo(2)">▶️</div>
+                        <div class="video-duration">18:42</div>
+                    </div>
+                    <div class="video-content">
+                        <h3>Building APIs with Express.js</h3>
+                        <p>Step-by-step guide to creating secure REST APIs for Nigerian businesses.</p>
+                        <div class="video-meta">
+                            <span>By TechLead Nigeria</span>
+                            <span>📅 Jan 10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background: linear-gradient(135deg, #10b981, #047857);">
+                        <div class="play-btn" onclick="playVideo(3)">▶️</div>
+                        <div class="video-duration">32:15</div>
+                    </div>
+                    <div class="video-content">
+                        <h3>Database Design for Startups</h3>
+                        <p>Learn MongoDB and PostgreSQL fundamentals tailored for Nigerian startups.</p>
+                        <div class="video-meta">
+                            <span>By Database Pro</span>
+                            <span>📅 Jan 5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Resources -->
+        <section id="resources" class="section-card">
+            <div class="section-header">
+                <h2>Learning Resources</h2>
+                <a href="#" class="view-all">View All Resources →</a>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">📖</div>
+                    <h3>Cheat Sheets</h3>
+                    <p>Quick reference guides for HTML, CSS, JavaScript, React, and more.</p>
+                    <button class="btn btn-secondary" onclick="openResource('cheatsheets')">Download</button>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">💾</div>
+                    <h3>Code Templates</h3>
+                    <p>Starter templates for common projects and boilerplate code.</p>
+                    <button class="btn btn-secondary" onclick="openResource('templates')">Access</button>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">📋</div>
+                    <h3>Project Ideas</h3>
+                    <p>Real-world project ideas for Northern Nigerian context.</p>
+                    <button class="btn btn-secondary" onclick="openResource('projects')">Browse</button>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">🎯</div>
+                    <h3>Career Guide</h3>
+                    <p>Path to becoming a professional developer in Nigeria.</p>
+                    <button class="btn btn-secondary" onclick="openResource('career')">Read</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificates -->
+        <section id="certificates" class="section-card">
+            <div class="section-header">
+                <h2>My Certificates</h2>
+                <a href="#" class="view-all">View All →</a>
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
+                <span class="certificate-badge">HTML & CSS Mastery</span>
+                <span class="certificate-badge">JavaScript Fundamentals</span>
+                <span class="certificate-badge">React Basics</span>
+                <span class="certificate-badge">Node.js Essentials</span>
+                <span class="certificate-badge">UI/UX Design</span>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 25px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                <h3 style="color: var(--accent-gold); margin-bottom: 15px;">🎯 Learning Goal</h3>
+                <p>Complete Full-Stack Web Development path to unlock the <strong>Full-Stack Developer Certificate</strong> and become job-ready in 6 months.</p>
+                <div style="display: flex; align-items: center; gap: 20px; margin-top: 20px;">
+                    <div class="progress-ring">
+                        <svg width="60" height="60">
+                            <circle class="progress-ring-bg" cx="30" cy="30" r="27"></circle>
+                            <circle class="progress-ring-fill" cx="30" cy="30" r="27" style="--progress: 65"></circle>
+                        </svg>
+                        <div class="progress-text">65%</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Current Progress</div>
+                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent-orange);">10/16 Courses</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeVideo()">✕</button>
+            <div class="video-player" id="videoPlayer">
+                <div style="text-align: center; color: var(--text-secondary);">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🎬</div>
+                    <h3>Video Player</h3>
+                    <p>In a real implementation, this would embed a video player</p>
+                </div>
+            </div>
+            <div id="videoInfo">
+                <h3>React Hooks Deep Dive</h3>
+                <p>Learn useState, useEffect, useContext, and custom hooks with practical examples relevant to Nigerian development scenarios.</p>
+                <div style="margin-top: 20px; display: flex; gap: 20px; color: var(--text-secondary);">
+                    <span>Duration: 25:18</span>
+                    <span>Instructor: Musa Sani</span>
+                    <span>Level: Intermediate</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Popup -->
+    <div class="achievement-popup" id="achievementPopup">
+        <button class="close" onclick="closeAchievement()">✕</button>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="font-size: 2.5rem;">🏆</div>
+            <div>
+                <h3 style="margin-bottom: 5px;">Achievement Unlocked!</h3>
+                <p>You've completed 5 courses this month! 🎉</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const videoModal = document.getElementById('videoModal');
+        const achievementPopup = document.getElementById('achievementPopup');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const courseSearch = document.getElementById('courseSearch');
+        
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 1200) {
+                if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+        
+        // Filter functionality
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                filterCourses(filter);
+            });
+        });
+        
+        // Search functionality
+        courseSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            filterCourses('search', searchTerm);
+        });
+        
+        // Filter courses function
+        function filterCourses(filter, searchTerm = '') {
+            const allCards = document.querySelectorAll('.course-card, .path-card, .video-card');
+            
+            allCards.forEach(card => {
+                let showCard = true;
+                
+                if (searchTerm) {
+                    const cardText = card.textContent.toLowerCase();
+                    showCard = cardText.includes(searchTerm);
+                } else if (filter !== 'all') {
+                    // In real implementation, cards would have data attributes
+                    // For demo, we'll simulate filtering
+                    if (filter === 'beginner') {
+                        showCard = card.textContent.includes('Beginner') || card.textContent.includes('Fundamentals');
+                    } else if (filter === 'intermediate') {
+                        showCard = card.textContent.includes('Intermediate') || card.textContent.includes('Advanced React');
+                    } else if (filter === 'advanced') {
+                        showCard = card.textContent.includes('Advanced') || card.textContent.includes('Data Science');
+                    } else if (filter === 'certificate') {
+                        showCard = Math.random() > 0.3; // Simulate some courses having certificates
+                    } else if (filter === 'popular') {
+                        showCard = Math.random() > 0.5; // Simulate popular courses
+                    }
+                }
+                
+                if (showCard) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+        
+        // Video player functionality
+        let currentVideo = null;
+        
+        function playVideo(videoId) {
+            currentVideo = videoId;
+            const videoTitles = [
+                'React Hooks Deep Dive',
+                'Building APIs with Express.js',
+                'Database Design for Startups'
+            ];
+            const videoDescriptions = [
+                'Learn useState, useEffect, useContext, and custom hooks with practical examples relevant to Nigerian development scenarios.',
+                'Step-by-step guide to creating secure REST APIs for Nigerian businesses.',
+                'Learn MongoDB and PostgreSQL fundamentals tailored for Nigerian startups.'
+            ];
+            
+            document.querySelector('#videoInfo h3').textContent = videoTitles[videoId - 1];
+            document.querySelector('#videoInfo p').textContent = videoDescriptions[videoId - 1];
+            videoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Simulate video tracking
+            trackVideoPlay(videoId);
+        }
+        
+        function closeVideo() {
+            videoModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            if (currentVideo) {
+                // Simulate progress update
+                updateLearningProgress();
+            }
+        }
+        
+        // Course resume functionality
+        function resumeCourse(courseId) {
+            const courseNames = [
+                'Advanced React & Redux',
+                'Node.js & Express API Development',
+                'UI/UX Design Fundamentals'
+            ];
+            alert(`Resuming course: ${courseNames[courseId - 1]}\n\nRedirecting to course content...`);
+            
+            // Simulate progress update
+            const progressBars = document.querySelectorAll('.progress-fill');
+            if (progressBars[courseId - 1]) {
+                const currentWidth = parseInt(progressBars[courseId - 1].style.width);
+                if (currentWidth < 100) {
+                    progressBars[courseId - 1].style.width = (currentWidth + 5) + '%';
+                }
+            }
+        }
+        
+        // Resource opening
+        function openResource(resourceType) {
+            const resourceNames = {
+                'cheatsheets': 'Cheat Sheets',
+                'templates': 'Code Templates',
+                'projects': 'Project Ideas',
+                'career': 'Career Guide'
+            };
+            alert(`Opening ${resourceNames[resourceType]} resource...\n\nThis would download or open the resource in a real implementation.`);
+        }
+        
+        // Learning tracking
+        let learningHours = 156;
+        let learningStreak = 12;
+        let completedCourses = 5;
+        
+        function updateLearningProgress() {
+            // Increment learning hours
+            learningHours += 0.5;
+            document.getElementById('learningHours').textContent = Math.floor(learningHours);
+            
+            // Update streak if learning happened today
+            const lastLearned = localStorage.getItem('lastLearnedDate');
+            const today = new Date().toDateString();
+            
+            if (lastLearned !== today) {
+                learningStreak++;
+                document.getElementById('learningStreak').textContent = learningStreak;
+                localStorage.setItem('lastLearnedDate', today);
+                
+                // Show achievement every 5 days
+                if (learningStreak % 5 === 0) {
+                    showAchievement(`🎯 ${learningStreak}-Day Learning Streak!`);
+                }
+            }
+            
+            // Update progress rings
+            updateProgressRings();
+        }
+        
+        function trackVideoPlay(videoId) {
+            const videosWatched = JSON.parse(localStorage.getItem('videosWatched') || '[]');
+            if (!videosWatched.includes(videoId)) {
+                videosWatched.push(videoId);
+                localStorage.setItem('videosWatched', JSON.stringify(videosWatched));
+                
+                // Check for achievement
+                if (videosWatched.length === 3) {
+                    showAchievement('🎬 Video Learner: Watched 3 tutorials!');
+                }
+            }
+        }
+        
+        function updateProgressRings() {
+            const rings = document.querySelectorAll('.progress-ring-fill');
+            rings.forEach(ring => {
+                const currentProgress = parseInt(ring.style.getPropertyValue('--progress') || 0);
+                if (currentProgress < 100) {
+                    const newProgress = Math.min(currentProgress + 5, 100);
+                    ring.style.setProperty('--progress', newProgress);
+                    
+                    // Update progress text
+                    const progressText = ring.closest('.progress-ring').querySelector('.progress-text');
+                    if (progressText) {
+                        progressText.textContent = newProgress + '%';
+                    }
+                    
+                    // Check for course completion
+                    if (newProgress === 100) {
+                        completedCourses++;
+                        document.getElementById('completedCourses').textContent = completedCourses;
+                        showAchievement('🏆 Course Completed!');
+                    }
+                }
+            });
+        }
+        
+        // Achievement system
+        function showAchievement(message) {
+            const popup = document.getElementById('achievementPopup');
+            popup.querySelector('h3').textContent = 'Achievement Unlocked!';
+            popup.querySelector('p').textContent = message;
+            popup.style.display = 'block';
+            
+            setTimeout(() => {
+                closeAchievement();
+            }, 5000);
+        }
+        
+        function closeAchievement() {
+            achievementPopup.style.display = 'none';
+        }
+        
+        // Animated counters on load
+        function animateCounter(element, target, suffix = '') {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + suffix;
+                }
+            }, 30);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate counters
+            setTimeout(() => {
+                animateCounter(document.getElementById('learningStreak'), 12);
+                animateCounter(document.getElementById('completedCourses'), 5);
+                animateCounter(document.getElementById('learningHours'), 156);
+                animateCounter(document.getElementById('certificates'), 3);
+            }, 500);
+            
+            // Check for daily learning
+            const lastLearned = localStorage.getItem('lastLearnedDate');
+            const today = new Date().toDateString();
+            
+            if (lastLearned === today) {
+                showAchievement('👋 Welcome back! Continue your learning journey.');
+            }
+            
+            // Initialize tooltips
+            initializeTooltips();
+            
+            // Simulate live updates
+            setInterval(() => {
+                // Randomly update some stats
+                if (Math.random() > 0.7) {
+                    const studentsElements = document.querySelectorAll('.path-stats span:last-child');
+                    studentsElements.forEach(el => {
+                        const current = parseInt(el.textContent);
+                        el.textContent = '👥 ' + (current + Math.floor(Math.random() * 10)) + ' Students';
+                    });
+                }
+            }, 30000);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl+F to focus search
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    courseSearch.focus();
+                }
+                
+                // Escape to close modals
+                if (e.key === 'Escape') {
+                    closeVideo();
+                    closeAchievement();
+                }
+                
+                // Number keys to navigate sections
+                if (e.ctrlKey && e.key >= '1' && e.key <= '4') {
+                    e.preventDefault();
+                    const sections = ['#learning-paths', '#my-courses', '#videos', '#resources'];
+                    document.querySelector(sections[parseInt(e.key) - 1])?.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Tooltip initialization
+        function initializeTooltips() {
+            const tooltipElements = document.querySelectorAll('.tooltip');
+            tooltipElements.forEach(el => {
+                el.addEventListener('mouseenter', function() {
+                    // In real implementation, this would show specific tooltip content
+                });
+            });
+        }
+        
+        // Path card click handlers
+        document.querySelectorAll('.path-card .btn-primary').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pathTitle = this.closest('.path-card').querySelector('h3').textContent;
+                if (this.textContent === 'Start Path') {
+                    alert(`Starting learning path: ${pathTitle}\n\nThis would begin your journey with the first course.`);
+                    this.textContent = 'Continue';
+                    this.style.background = 'linear-gradient(135deg, var(--accent-orange), #FF5722)';
+                } else {
+                    alert(`Continuing path: ${pathTitle}\n\nRedirecting to your current position...`);
+                }
+            });
+        });
+        
+        // Simulate loading animation
+        setTimeout(() => {
+            document.body.classList.remove('pulse');
+        }, 2000);
+        
+        // Progress ring animation on scroll
+        const observerOptions = {
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateProgressRings();
+                }
+            });
+        }, observerOptions);
+        
+        // Observe progress section
+        const progressSection = document.getElementById('certificates');
+        if (progressSection) {
+            observer.observe(progressSection);
+        }
+    </script>
+</body>
+</html>
